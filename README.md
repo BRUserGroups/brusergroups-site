@@ -1,6 +1,7 @@
-# BRSSUG site
+# BRUG site
 
-This repository is a static site starter for moving BRSSUG off Google Sites and onto GitHub Pages.
+This repository is the static site for BRUG (Baton Rouge User Groups), the umbrella covering
+BRSSUG, BRDNUG, and BRAIN's joint monthly meetings, built with Astro and deployed to GitHub Pages.
 
 It uses Astro because the site needs two things at once:
 
@@ -21,7 +22,7 @@ if a Sessionize speaker GUID is given; it's pulled from Sessionize automatically
 - Build-time cross-posting of new meeting announcements to brdnug.org (WordPress) — currently dormant; see below.
 - Build-time email notifications with ready-to-paste brdnug.org post text, for manual posting while the WordPress path is blocked.
 - Seed content so the site still builds before API credentials are added.
-- A custom domain file for `www.brssug.org`.
+- A custom domain file for `www.brusergroups.org`.
 
 ## Local development
 
@@ -62,14 +63,14 @@ configured, the email step only fires for meeting files added or changed in that
 
 The workflow in `.github/workflows/deploy.yml` builds on push to `main`, on a schedule, and on manual dispatch. Add the secrets above to make the deployed site sync live data and cross-post meetings automatically.
 
-**`www.brssug.org` is not live yet** — DNS still points at the old Google Sites host, and the
-custom domain isn't registered in this repo's Pages settings, pending group signoff on the cutover.
-Until then, preview the site at its GitHub Pages project URL:
-**https://kennyneal.github.io/brssug-site/**. The build sets `GITHUB_PAGES_PROJECT_PREVIEW=true`
-(see `astro.config.mjs` and the "Build site" step in `deploy.yml`) so internal links resolve
-correctly under the `/brssug-site/` path. When ready to cut over: update DNS for `www.brssug.org`
-to point at GitHub Pages, set the custom domain in Settings → Pages, and remove
-`GITHUB_PAGES_PROJECT_PREVIEW` from `deploy.yml` — no other changes needed.
+**`www.brusergroups.org` is not live yet** — DNS hasn't been pointed at GitHub Pages, and the
+custom domain isn't registered in this repo's Pages settings. Until then, preview the site at its
+GitHub Pages project URL: **https://brusergroups.github.io/brusergroups-site/**. The build sets
+`GITHUB_PAGES_PROJECT_PREVIEW=true` (see `astro.config.mjs` and the "Build site" step in
+`deploy.yml`) so internal links resolve correctly under the `/brusergroups-site/` path. When ready
+to cut over: update DNS for `www.brusergroups.org` to point at GitHub Pages, set the custom domain
+in Settings → Pages, and remove `GITHUB_PAGES_PROJECT_PREVIEW` from `deploy.yml` — no other changes
+needed.
 
 ## Create a meeting from an issue
 

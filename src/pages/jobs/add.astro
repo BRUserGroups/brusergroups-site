@@ -23,7 +23,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <h2 class="panel-title">Job details</h2>
     <p class="form-intro">
       Fill out the fields below and we'll review your posting. Prefer email?
-      <a href={`mailto:${siteData.contactEmail}?subject=BRSSUG Job Posting`}>Write us directly</a>.
+      <a href={`mailto:${siteData.contactEmail}?subject=BRUG Job Posting`}>Write us directly</a>.
     </p>
 
     <form class="job-form" onsubmit="return prepareJobEmail(event)">
@@ -75,7 +75,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     event.preventDefault();
     const form = event.target;
     const fd = new FormData(form);
-    const subject = 'BRSSUG Job Posting';
+    const subject = 'BRUG Job Posting';
     const body = Array.from(fd.entries())
       .filter(([_, v]) => v)
       .map(([k, v]) => `${k}: ${v}`)

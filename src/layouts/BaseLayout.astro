@@ -24,7 +24,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDescription = ogDescription ?? description;
-const resolvedOgImage = ogImage ?? `${base}/brssug-icon.png`;
+const resolvedOgImage = ogImage ?? `${base}/brug-icon.png`;
 const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
@@ -38,7 +38,7 @@ const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString(
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/png" href={`${base}/brssug-icon.png`} />
+    <link rel="icon" type="image/png" href={`${base}/brug-icon.png`} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDescription} />
     <meta property="og:image" content={resolvedOgImage} />
@@ -50,7 +50,7 @@ const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString(
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href={`${base}/`}>
-          <img src={`${base}/brssug-logo.png`} alt="BRSSUG – Baton Rouge SQL Server User Group" class="site-logo" />
+          <img src={`${base}/brug-logo.png`} alt="BRUG – Baton Rouge User Groups" class="site-logo" />
         </a>
         <nav class="site-nav" aria-label="Primary">
           <a href={`${base}/meetings/`}>Meetings</a>
@@ -71,8 +71,7 @@ const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString(
       <footer class="site-footer">
         <div class="footer-brand">
           <a class="footer-brand-link" href={`${base}/`}>
-            <span class="footer-brand-name">{siteData.brand}</span>
-            <span class="footer-brand-full">{siteData.fullName}</span>
+            <img src={`${base}/brug-logo-white.png`} alt={siteData.fullName} class="footer-logo" />
           </a>
           <p class="footer-tagline">{siteData.meetingSchedule}</p>
           <p class="footer-tagline">Streamed &amp; recorded on <a href={siteData.youtubeUrl} target="_blank" rel="noreferrer" class="footer-link">YouTube</a></p>

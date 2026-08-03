@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BRSSUG meeting reminder script — checks content collection for upcoming/past meetings
+"""BRUG meeting reminder script — checks content collection for upcoming/past meetings
 and prints reminders based on the current date relative to meeting dates.
 
 Usage: python3 scripts/meeting-reminder.py
@@ -27,9 +27,9 @@ TEMPLATE_PREP = """\
 - [ ] **Publish Meetup event** at https://www.meetup.com/baton-rouge-net-and-sql-server-user-groups/
 - [ ] **Create meeting markdown file** in src/content/meetings/YYYY-MM-DD-speaker-slug.md
 - [ ] **Write speaker bio** in the frontmatter `bio:` field
-- [ ] **Post on X/Twitter** — @BRSSUG
-- [ ] **Post on LinkedIn** — linkedin.com/company/brssug
-- [ ] **Post on Bluesky** — @brssug.org
+- [ ] **Post on X/Twitter** — @BRSSUG (or member group's account)
+- [ ] **Post on LinkedIn** — linkedin.com/company/baton-rouge-user-groups
+- [ ] **Post on Bluesky** — @brssug.org (or member group's account)
 - [ ] **Email the mailing list** (Meetup handles this if you publish there)
 """
 
@@ -38,9 +38,9 @@ TEMPLATE_FOLLOWUP = """\
 
 ### Action items:
 - [ ] **Add YouTube recording URL** to the meeting markdown file
-- [ ] **Post recording on X/Twitter** — @BRSSUG
-- [ ] **Post recording on LinkedIn** — linkedin.com/company/brssug
-- [ ] **Post recording on Bluesky** — @brssug.org
+- [ ] **Post recording on X/Twitter** — @BRSSUG (or member group's account)
+- [ ] **Post recording on LinkedIn** — linkedin.com/company/baton-rouge-user-groups
+- [ ] **Post recording on Bluesky** — @brssug.org (or member group's account)
 - [ ] **Thank the speaker** {speaker} publicly
 - [ ] **Update site content** if needed (commit + push to deploy)
 """
@@ -49,9 +49,9 @@ TEMPLATE_WEEKLY = """\
 ## Weekly Social Media Check
 
 ### Action items:
-- [ ] **Post about next meeting** on X/Twitter (@BRSSUG)
-- [ ] **Post on LinkedIn** (linkedin.com/company/brssug)
-- [ ] **Post on Bluesky** (@brssug.org)
+- [ ] **Post about next meeting** on X/Twitter (@BRSSUG or member group's account)
+- [ ] **Post on LinkedIn** (linkedin.com/company/baton-rouge-user-groups)
+- [ ] **Post on Bluesky** (@brssug.org or member group's account)
 - [ ] **Share to Slack** (#brusergroups)
 - [ ] **Check Meetup RSVPs** and send a reminder if needed
 """

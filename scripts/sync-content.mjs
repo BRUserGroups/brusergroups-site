@@ -7,8 +7,8 @@ const sessionizeEventId = process.env.SESSIONIZE_EVENT_ID ?? '4m3gwjp1';
 const sessionizeApiBase = process.env.SESSIONIZE_API_BASE ?? 'https://sessionize.com/api/v2';
 
 const fallbackSite = {
-  brand: 'BRSSUG',
-  title: 'BRSSUG',
+  brand: 'BRUG',
+  title: 'BRUG',
   description: 'Community talks and speaker updates that stay synced from Sessionize.',
   meetupUrl: 'https://www.meetup.com/',
   sessionizeUrl: 'https://sessionize.com/',
