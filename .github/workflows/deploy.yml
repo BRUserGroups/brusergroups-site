@@ -40,9 +40,6 @@ jobs:
         env:
           SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
           SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
-          # Remove once www.brusergroups.org DNS is cut over and the custom domain is
-          # set in repo Settings > Pages — see the comment in astro.config.mjs.
-          GITHUB_PAGES_PROJECT_PREVIEW: 'true'
 
       - name: Cross-post meetings to brdnug.org (WordPress)
         run: npm run sync:wordpress

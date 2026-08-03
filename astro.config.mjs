@@ -1,13 +1,11 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Temporary: the custom domain (www.brusergroups.org) hasn't been cut over to
-// GitHub Pages yet (pending DNS). Until then, the deploy workflow sets
-// GITHUB_PAGES_PROJECT_PREVIEW so the site works correctly at its GitHub Pages
-// project URL, https://brusergroups.github.io/brusergroups-site/, which needs a
-// /brusergroups-site base path. Once DNS is cut over and the custom domain is set
-// in repo Settings > Pages, remove that env var from deploy.yml — no changes
-// needed here, it'll fall back to the real domain automatically.
+// www.brusergroups.org is live and cut over to GitHub Pages. GITHUB_PAGES_PROJECT_PREVIEW
+// is no longer set in deploy.yml, so this always builds for the real domain — this flag
+// just stays available as a manual escape hatch back to the GitHub Pages project URL
+// (https://brusergroups.github.io/brusergroups-site/) if the custom domain ever needs
+// to be temporarily unset.
 const isProjectPagesPreview = process.env.GITHUB_PAGES_PROJECT_PREVIEW === 'true';
 
 export default defineConfig({
