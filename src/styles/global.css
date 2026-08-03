@@ -102,6 +102,7 @@ img {
 .footer-logo {
   height: 32px;
   width: auto;
+  align-self: flex-start;
 }
 
 .brand {
