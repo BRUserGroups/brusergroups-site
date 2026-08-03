@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, stripMarkdown } from '../lib/format';
+
+type Props = {
+  meeting: CollectionEntry<'meetings'>;
+  speakerPicture?: string;
+  fallbackDescription?: string;
+  fallbackBio?: string;
+  lightningSpeakerPicture?: string;
+};
+
+const { meeting, speakerPicture, fallbackDescription, fallbackBio, lightningSpeakerPicture } = Astro.props;
+const { title, date, speaker, bio, meetupUrl, youtubeUrl, sponsor, sponsorUrl, category, lightningSpeaker, lightningTitle } = meeting.data;
+const today = new Date();
+const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+const isPast = date < todayUtc;
+
+const hasOwnBody = (meeting.body ?? '').trim().length > 0;
+const excerpt = stripMarkdown(hasOwnBody ? meeting.body ?? '' : fallbackDescription ?? '', 220);
+const displayBio = stripMarkdown(bio || fallbackBio || '', 220);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<article class="card meeting-card">
+  <p class="card-kicker">{category} · {isPast ? 'Past Meeting' : 'Upcoming'}</p>
+
+  <div class="meeting-card-header">
+    {speakerPicture
+      ? <img src={speakerPicture} alt={speaker} class="meeting-speaker-photo" width="52" height="52" />
+      : <div class="meeting-speaker-photo meeting-speaker-initial" aria-hidden="true">{speaker.slice(0, 1)}</div>
+    }
+    <div class="meeting-card-meta">
+      <p class="meeting-speaker-name">{speaker}</p>
+      <p class="card-meta">{formatDate(date)} · 5:15 PM</p>
+    </div>
+  </div>
+
+  <h3 class="meeting-card-title"><a href={`${base}/meetings/${meeting.id}/`}>{title}</a></h3>
+
+  {excerpt && <p class="meeting-abstract">{excerpt}</p>}
+  {displayBio && <p class="meeting-speaker-bio">{displayBio}</p>}
+  {lightningSpeaker && lightningTitle && (
+    <div class="meeting-lightning">
+      {lightningSpeakerPicture
+        ? <img src={lightningSpeakerPicture} alt={lightningSpeaker} class="meeting-speaker-photo meeting-lightning-photo" width="36" height="36" />
+        : <div class="meeting-speaker-photo meeting-speaker-initial meeting-lightning-photo" aria-hidden="true">{lightningSpeaker.slice(0, 1)}</div>
+      }
+      <p class="meeting-lightning-text">Lightning talk: <strong>{lightningTitle}</strong> — {lightningSpeaker}</p>
+    </div>
+  )}
+  {sponsor && (
+    <p class="meeting-sponsor">
+      Sponsored by {sponsorUrl ? <a href={sponsorUrl} target="_blank" rel="noreferrer">{sponsor}</a> : sponsor}
+    </p>
+  )}
+
+  <div class="card-links">
+    {meetupUrl && (
+      !isPast
+        ? <a class="card-link card-link--primary" href={meetupUrl} target="_blank" rel="noreferrer">RSVP on Meetup</a>
+        : <a class="card-link" href={meetupUrl} target="_blank" rel="noreferrer">View on Meetup</a>
+    )}
+    {youtubeUrl && (
+      <a class="card-link card-link--youtube" href={youtubeUrl} target="_blank" rel="noreferrer">Watch recording</a>
+    )}
+  </div>
+</article>

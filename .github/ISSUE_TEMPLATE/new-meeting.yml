@@ -1,0 +1,115 @@
+name: New meeting
+description: Hand off details for a new BRSSUG meeting so it can be added to the site.
+title: "New meeting: "
+labels: ["meeting"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Session title
+    validations:
+      required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Meeting date
+      description: Format YYYY-MM-DD
+      placeholder: "2026-01-01"
+    validations:
+      required: true
+
+  - type: input
+    id: speaker
+    attributes:
+      label: Speaker full name
+    validations:
+      required: true
+
+  - type: input
+    id: sessionizeId
+    attributes:
+      label: Sessionize speaker GUID
+      description: >-
+        The speaker's Sessionize GUID (e.g. "116e619f-d8af-4bdf-b00a-2d10da3a9d08" — check
+        src/data/generated/speakers.json or the speaker's Sessionize profile URL), NOT the
+        numeric speakerId/sessionId pair shown elsewhere on sessionize.com. If set and the
+        abstract below is left blank, the description is pulled from Sessionize automatically.
+    validations:
+      required: false
+
+  - type: textarea
+    id: bio
+    attributes:
+      label: Speaker bio (only if not in Sessionize)
+      description: Only needed if the speaker isn't in Sessionize yet.
+    validations:
+      required: false
+
+  - type: textarea
+    id: abstract
+    attributes:
+      label: Session abstract / description
+      description: >-
+        Plain text is fine — this becomes the meeting page body and can be copy-pasted into
+        Meetup later. Leave blank if a Sessionize speaker GUID is set above; the description
+        will be pulled from Sessionize automatically.
+    validations:
+      required: false
+
+  - type: input
+    id: meetupUrl
+    attributes:
+      label: Meetup event URL
+      description: Leave blank if the Meetup event doesn't exist yet — it can be added later.
+    validations:
+      required: false
+
+  - type: input
+    id: youtubeUrl
+    attributes:
+      label: YouTube recording URL
+      description: Add after the meeting happens.
+    validations:
+      required: false
+
+  - type: input
+    id: sponsor
+    attributes:
+      label: Sponsor (if any)
+    validations:
+      required: false
+
+  - type: input
+    id: sponsorUrl
+    attributes:
+      label: Sponsor website URL (if any)
+      description: Links the sponsor name on the site if given.
+    validations:
+      required: false
+
+  - type: input
+    id: lightningSpeaker
+    attributes:
+      label: Lightning talk speaker (if any)
+      description: We don't always have a lightning talk — leave blank if this meeting doesn't have one.
+    validations:
+      required: false
+
+  - type: input
+    id: lightningTitle
+    attributes:
+      label: Lightning talk title (if any)
+      description: Only shows on the site if a lightning talk speaker is also given above.
+    validations:
+      required: false
+
+  - type: input
+    id: lightningSessionizeId
+    attributes:
+      label: Lightning talk speaker Sessionize GUID (if any)
+      description: >-
+        Optional — gets the lightning speaker's photo on the site, same as the main
+        speaker's Sessionize GUID above. Leave blank for an initial-letter avatar instead.
+    validations:
+      required: false

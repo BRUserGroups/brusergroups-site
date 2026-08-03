@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteData } from '../../lib/data';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<BaseLayout title={`${siteData.brand} | Submit a Job Posting`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Jobs</p>
+      <h1>Submit a job posting</h1>
+      <p>
+        Hiring a DBA, BI developer, .NET developer, data analyst, or other data platform
+        professional? Send us the details and we'll add it to our jobs page.
+      </p>
+      <div class="hero-actions">
+        <a class="button-secondary" href={`${base}/jobs/`}>← Back to jobs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 class="panel-title">Job details</h2>
+    <p class="form-intro">
+      Fill out the fields below and we'll review your posting. Prefer email?
+      <a href={`mailto:${siteData.contactEmail}?subject=BRSSUG Job Posting`}>Write us directly</a>.
+    </p>
+
+    <form class="job-form" onsubmit="return prepareJobEmail(event)">
+      <div class="job-form-row">
+        <label class="job-field">
+          <span class="job-label">Company name <span class="job-req">required</span></span>
+          <input type="text" name="Company" required />
+        </label>
+        <label class="job-field">
+          <span class="job-label">Contact name <span class="job-req">required</span></span>
+          <input type="text" name="Contact Name" required />
+        </label>
+        <label class="job-field">
+          <span class="job-label">Email <span class="job-req">required</span></span>
+          <input type="email" name="Email" required />
+        </label>
+        <label class="job-field">
+          <span class="job-label">Job title <span class="job-req">required</span></span>
+          <input type="text" name="Job Title" required />
+        </label>
+      </div>
+
+      <label class="job-field">
+        <span class="job-label">Job description &amp; requirements <span class="job-req">required</span></span>
+        <textarea name="Description" rows="6" required placeholder="Responsibilities, required skills, location, remote/hybrid/onsite info, salary range…"></textarea>
+      </label>
+
+      <div class="job-form-row">
+        <label class="job-field">
+          <span class="job-label">Link to apply</span>
+          <input type="url" name="Apply Link" placeholder="https://company.com/careers/…" />
+        </label>
+        <label class="job-field">
+          <span class="job-label">Notes (optional)</span>
+          <input type="text" name="Notes" placeholder="Anything else we should know" />
+        </label>
+      </div>
+
+      <div class="job-form-actions">
+        <button type="submit" class="button">Send posting →</button>
+        <span class="job-form-note">Opens your email app with the details filled in.</span>
+      </div>
+    </form>
+  </section>
+</BaseLayout>
+
+<script>
+  function prepareJobEmail(event) {
+    event.preventDefault();
+    const form = event.target;
+    const fd = new FormData(form);
+    const subject = 'BRSSUG Job Posting';
+    const body = Array.from(fd.entries())
+      .filter(([_, v]) => v)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n');
+    window.location.href = `mailto:${siteData.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return false;
+  }
+</script>
+
+<style>
+  .form-intro {
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+    max-width: 52ch;
+  }
+  .job-form {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .job-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .job-field {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .job-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .job-req {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .job-field input,
+  .job-field textarea {
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.95rem;
+    background: var(--surface-soft);
+    transition: border-color 0.15s;
+  }
+  .job-field input:focus,
+  .job-field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+  .job-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+  .job-form-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  @media (max-width: 600px) {
+    .job-form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

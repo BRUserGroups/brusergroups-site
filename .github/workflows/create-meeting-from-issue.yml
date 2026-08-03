@@ -1,0 +1,99 @@
+name: Create meeting from issue
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  create-meeting:
+    if: contains(github.event.issue.labels.*.name, 'meeting')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse issue and create meeting file
+        id: create_meeting
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node scripts/create-meeting-from-issue.mjs
+
+      - name: Comment on parse failure
+        if: steps.create_meeting.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ERROR_MESSAGE: ${{ steps.create_meeting.outputs.error }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "Couldn't create the meeting file automatically: $ERROR_MESSAGE
+
+          Please edit the issue to fix this, then re-open it (or ping a maintainer to create the file by hand)."
+
+      - name: Validate build
+        id: validate_build
+        if: steps.create_meeting.outcome == 'success'
+        env:
+          SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
+          SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
+        run: npm run build
+
+      - name: Comment on build failure
+        if: steps.create_meeting.outcome == 'success' && steps.validate_build.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "The meeting file was created but the site failed to build with it. Check the workflow run for details, then edit the issue and re-open it."
+
+      - name: Create branch and open PR
+        if: steps.create_meeting.outcome == 'success' && steps.validate_build.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          FILENAME: ${{ steps.create_meeting.outputs.filename }}
+          WARNINGS: ${{ steps.create_meeting.outputs.warnings }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          SLUG="${FILENAME%.md}"
+          BRANCH="meeting/$SLUG"
+
+          git checkout -b "$BRANCH"
+          git add "src/content/meetings/$FILENAME"
+          git commit -m "Add meeting: $FILENAME"
+          # --force: this branch is fully bot-owned and regenerated fresh each run, so a
+          # leftover branch from a previous failed/retried run (e.g. reopening the issue
+          # after fixing something) should just be overwritten, not rejected as non-fast-forward.
+          git push --force -u origin "$BRANCH"
+
+          BODY="Automatically generated from #$ISSUE_NUMBER.
+
+          Closes #$ISSUE_NUMBER"
+
+          if [ -n "$WARNINGS" ]; then
+            BODY="$BODY
+
+          **Heads up:** $WARNINGS"
+          fi
+
+          if gh pr view "$BRANCH" >/dev/null 2>&1; then
+            echo "PR already exists for $BRANCH, skipping creation."
+          else
+            gh pr create --base main --head "$BRANCH" --title "Add meeting: $FILENAME" --body "$BODY"
+          fi

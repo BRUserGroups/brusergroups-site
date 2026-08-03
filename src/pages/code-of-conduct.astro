@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteData } from '../lib/data';
+---
+
+<BaseLayout title={`${siteData.brand} | Code of Conduct`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Community</p>
+      <h1>Code of Conduct</h1>
+      <p>In short: be kind. Behave professionally.</p>
+    </div>
+  </section>
+
+  <section class="panel prose-panel">
+    <h2>Our commitment</h2>
+    <p>
+      Baton Rouge User Groups events and SQL Saturday Baton Rouge are dedicated to providing a
+      harassment-free experience for everyone, regardless of gender, sexual orientation, disability,
+      physical appearance, body size, race, or religion. Do not insult or put down other attendees
+      or speakers.
+    </p>
+    <p>
+      We do not tolerate harassment of participants in any form. This policy applies to speakers,
+      volunteers, sponsor and vendor personnel, and attendees.
+    </p>
+
+    <h2>Expected behavior</h2>
+    <ul>
+      <li>Sexist, racist, ageist, religious, and other exclusionary jokes can be offensive to those around you and are not appropriate for User Group or SQL Saturday events.</li>
+      <li>Excessive swearing and offensive jokes are not appropriate for User Group or SQL Saturday events.</li>
+      <li>Prohibited conduct includes any abusive conduct that unreasonably interferes with another person's ability to enjoy and participate in the event — including repeated disruptive questions, heckling, loud joking, side conversations, or talking while a speaker is presenting.</li>
+      <li>Learners of all ages are welcome, but children's behavior should be consistent with the rest of the audience and should not be a distraction to presenters.</li>
+      <li>Garbage and used food containers should be disposed of properly. We are judged by our host facilities on our cleanliness — please help keep rooms clean, avoid spills, and do not stack garbage outside cans.</li>
+    </ul>
+
+    <h2>Alcohol &amp; smoking</h2>
+    <ul>
+      <li>Baton Rouge User Groups events are an <strong>alcohol-free zone</strong>. We have zero tolerance for alcohol use. Social events related to the conference may have a different policy.</li>
+      <li>Smoking is <strong>NOT allowed</strong> inside or near any event buildings.</li>
+    </ul>
+
+    <h2>Enforcement</h2>
+    <p>
+      Attendees violating these rules may be asked to leave at the sole discretion of the event organizers.
+    </p>
+
+    <h2>Reporting</h2>
+    <p>
+      Persons who are targets of, or witnesses to, hostile or harassing conduct should contact event staff
+      immediately. You may also email
+      <a href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a> to report violations.
+      Reports will be promptly addressed. Thank you for helping make this a welcoming, friendly event for all.
+    </p>
+
+    <h2>SQL Saturday</h2>
+    <p>
+      SQL Saturday events have adopted their own (similar) Anti-Harassment Policy, considered to be in
+      tandem with this Code of Conduct:
+      <a href="http://www.sqlsaturday.com/AntiHarassmentPolicy.aspx" target="_blank" rel="noreferrer">
+        sqlsaturday.com/AntiHarassmentPolicy.aspx
+      </a>
+    </p>
+  </section>
+</BaseLayout>

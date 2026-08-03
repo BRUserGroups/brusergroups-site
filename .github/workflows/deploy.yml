@@ -1,0 +1,81 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * *'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
+          SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
+          # Remove once www.brssug.org DNS is cut over and the custom domain is set
+          # in repo Settings > Pages — see the comment in astro.config.mjs.
+          GITHUB_PAGES_PROJECT_PREVIEW: 'true'
+
+      - name: Cross-post meetings to brdnug.org (WordPress)
+        run: npm run sync:wordpress
+        continue-on-error: true
+        env:
+          WORDPRESS_API_BASE: ${{ secrets.WORDPRESS_API_BASE }}
+          WORDPRESS_USERNAME: ${{ secrets.WORDPRESS_USERNAME }}
+          WORDPRESS_APP_PASSWORD: ${{ secrets.WORDPRESS_APP_PASSWORD }}
+          WORDPRESS_CATEGORY_ID: ${{ secrets.WORDPRESS_CATEGORY_ID }}
+
+      - name: Email brdnug.org post draft
+        run: npm run sync:email
+        continue-on-error: true
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          GITHUB_EVENT_AFTER: ${{ github.event.after }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

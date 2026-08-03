@@ -1,0 +1,92 @@
+[
+  {
+    "id": "d30c2f62-7508-4f19-9690-c318e7f9e43e",
+    "name": "Andy Parkerson",
+    "tagline": "Data Engineering & Analytics | Microsoft Fabric Advocate",
+    "bio": "Andy is a seasoned data engineer with over a decade of experience in the Microsoft ecosystem, specializing in Microsoft Fabric. With a solid background in software development for retail back-end systems, he brings a unique perspective to building scalable, data-driven solutions. Holding an M.S. in Mathematics, Andy combines analytical rigor with practical engineering to deliver reliable, actionable insights.\r\nAfter transitioning to data engineering, Andy has become a passionate advocate for evidence-based programming and empowering organizations through trustworthy data. He actively contributes to the tech community by organizing and speaking at user groups focused on Microsoft Fabric, SQL Server, and analytics.\r\nWhen he’s not working with data, Andy enjoys grilling and smoking, often spending weekends refurbishing old grills and bringing them back to life for another round of great cooking.",
+    "profilePicture": "https://cdn.sessionize.com/image/0a39-400o400o1-v3GuCTfUt8hQfCyEY31Qz.png",
+    "sessions": [
+      {
+        "title": "Own Your Workflow: Build Notebooks Locally & Deploy Them to Fabric",
+        "description": "Break free from browser IDE in Fabric Python and PySpark Notebooks! Learn to install Python and Spark, create your own local lakehouse, and develop Python and PySpark Notebooks in Visual Studio, VSCode, or whatever IDE you're used to. We'll start with a clean machine and download, install and configure everything we need. We will create a feature-rich notebook, and wrap up by deploying to Fabric.",
+        "startsAt": "2026-02-25T18:00:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  },
+  {
+    "id": "22f090a8-2de4-4055-9ed6-e3b3b77856d9",
+    "name": "Burton White",
+    "tagline": "CEO, Excella",
+    "bio": "Burton White, Chief Executive Officer and Co-founder at Excella, is a\r\ntrailblazing leader with over 30 years of experience in fostering community impact\r\nand driving technological innovation. Under his command, Excella has grown from\r\nits inception to a brand recognized for delivering innovation solutions to clients\r\nacross the commercial and public sectors. With over three decades of experience in\r\nthe technology consulting space, Burton is hyper focused on developing and living a\r\nstrategy that drives value for clients, Excellians, and the community at large. His\r\nstrong belief in empowering people with technology positions Excella as a leader in\r\ncutting edge technologies such as AI.\r\n\r\nAs a New Orleans native, Burton is deeply committed to creating an inclusive and equitable tech community and champions a \"connect, share, and learn\" philosophy that enriches the local tech culture. His passion for service extends outside of technology, and manifested in Excella's community impact program, ImpaX, a companywide initiative that contributes to multi-year projects that make a difference.",
+    "profilePicture": "https://cdn.sessionize.com/image/a4fc-400o400o1-WqzUHwQbh7NEAxhFBTAzyo.jpg",
+    "sessions": [
+      {
+        "title": "How AI is Changing Successful Engagements in the Current Federal Landscape",
+        "description": "Burton White, CEO of Excella, will discuss how AI is changing the roles, skills, and team structures needed to deliver successful engagements in the current federal landscape.",
+        "startsAt": "2026-08-12T18:00:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  },
+  {
+    "id": "cd09f05b-008c-4109-9959-0513a75346b6",
+    "name": "John Kerski",
+    "tagline": "Director, Client First Technologies",
+    "bio": "John leverages his 10+ years of technical and government leadership experience to help Federal Agencies, and private sector clients utilize Microsoft products to their fullest potential. His certifications with Microsoft products offers customers a high rate of return when looking to invest in Microsoft solutions.",
+    "profilePicture": "https://cdn.sessionize.com/image/1b93-400o400o1-NgeVufyu7xuXs3oE7JGXQC.png",
+    "sessions": [
+      {
+        "title": "What is Power BI Developer Mode?",
+        "description": "With the introduction of Power BI Developer Mode, the game has changed for data professionals. This session will explore how Power BI development practices can be enhanced using the PBIP format and the new capabilities it brings. We’ll dive into how Developer Mode supports better version control and share tips for leveraging this feature to accelerate your team's work.",
+        "startsAt": "2026-05-13T18:00:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  },
+  {
+    "id": "00484f01-540e-40ab-a6b3-98b60d3a2219",
+    "name": "Kenneth Neal",
+    "tagline": "Recovering DBA. Sr. Site Reliability Engineer at Blue Cross Blue Shield of Louisiana",
+    "bio": "Formerly a SQL Server DBA. Now an SRE. I am a part of the Baton Rouge User Groups and SQL Saturday Baton Rouge leadership teams.",
+    "profilePicture": "https://cdn.sessionize.com/image/e183-400o400o1-RGG2xR4efrPCS4Gd9frsQ3.jpg",
+    "sessions": [
+      {
+        "title": "BRUG Board Meeting and Info Session",
+        "description": "Do you want to get involved with the Baton Rouge User Groups? Join us at our annual board meeting to give your input into the groups and even volunteer for a leadership position. We're looking for your ideas and help to make the groups what you want them to be.",
+        "startsAt": "2026-07-08T17:15:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  },
+  {
+    "id": "116e619f-d8af-4bdf-b00a-2d10da3a9d08",
+    "name": "Milad Fatolla Khanlou",
+    "tagline": "Data Engineer At Louisiana Stare University",
+    "bio": "BI Analyst with over 4 years of hands-on experience in data engineering, analysis, and cleaning, supporting analytics initiatives across cloud and on-premises environments and a wide range of data sources.",
+    "profilePicture": "https://cdn.sessionize.com/image/94f6-400o400o1-PseBUtTSNRCVqsjiKQkKgD.jpg",
+    "sessions": [
+      {
+        "title": "Amazon Product and seller Analysis Dashboard",
+        "description": "Amazon Product and Seller Analysis Dashboard is a personal project that implements a complete ETL pipeline, from data extraction to advanced analytical insights, using historical Amazon data stored and analyzed in Snowflake, loaded and visualized through a Power BI dashboard to support business analysis.",
+        "startsAt": "2026-01-21T18:00:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  },
+  {
+    "id": "86dfe147-4a63-4ef7-88f9-4e6dc1ca5ddf",
+    "name": "Thomas LeBlanc",
+    "tagline": "Data Warehouse Architect/MVP at Data on the Geaux ",
+    "bio": "Thomas LeBlanc is a Microsoft Data Platform MVP and has spent 15+ years as a Data Warehouse Manager and Business Intelligence Architect in Baton Rouge, LA along with 15+ year as a Database Administrator specializing in SQL Server, Microsoft Business Intelligence Services (SSIS, SSAS & SSRS) and Power BI. Starting as a COBOL while in college as Louisiana State University, he has also been a developer, report writer, trainer and documentation writer. Thomas has been a recent and frequent speaker at PASS Summit, SQLSaturday, Live360, VSLive and Power Platform events. Microsoft has recognized Thomas as a Data Platform MVP for the past 5 years.",
+    "profilePicture": "https://cdn.sessionize.com/image/dabd-400o400o1-47-4a63-4ef7-88f9-4e6dc1ca5ddf.8f8f9bfd-0dc9-42be-b789-ce2848d6bb1c.jpg",
+    "sessions": [
+      {
+        "title": "Enhancing Power BI with Copilot",
+        "description": "The integration of Copilot into Power BI development marks a step in learning Power BI development for data professionals. Copilot streamlines the data model and report-building process through intelligent suggestions, natural language query generation, and context-aware insights. Developers can now describe desired outcomes in plain English, and Copilot will generate DAX formulas, visuals, and even entire report structures. This enables developers to focus less on manual data wrangling and more on advancing Power BI skills. Copilot fosters a more collaborative and intuitive development experience within Power BI. It assists in data modeling, ensures best practices in design, and provides real-time feedback that enhances the overall quality of models and reports. With the ability to learn from organizational semantic models and adapt to specific business contexts, Copilot becomes a powerful assistant in delivering data-driven insights. As organizations continue to embrace self-service analytics, Copilot acts as both a tutor and co-creator—bridging skill gaps and accelerating the journey from raw data to impactful storytelling.",
+        "startsAt": "2026-01-14T18:00:00",
+        "eventTitle": "Sessionize event"
+      }
+    ]
+  }
+]

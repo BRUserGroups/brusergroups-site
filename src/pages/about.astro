@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteData } from '../lib/data';
+---
+
+<BaseLayout title={`${siteData.brand} | About`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">About</p>
+      <h1>Baton Rouge SQL Server User Group</h1>
+      <p>
+        A free, no-registration-required user group for professionals and students
+        in the broad field of Microsoft SQL Server and .NET — meeting monthly in Baton Rouge since the early 2000s.
+      </p>
+    </div>
+  </section>
+
+  <section class="panel prose-panel">
+    <h2>Who we are</h2>
+    <p>
+      The Baton Rouge SQL Server User Group (<a href="http://brssug.org">BRSSUG.org</a>) is a free,
+      no-registration-required user group for professionals and students in the broad field of Microsoft
+      SQL Server. The group aims to provide a platform for growing your skillset in Information Technology
+      and your professional network, and works closely with local and regional partners to make our monthly
+      meetings interesting and informative.
+    </p>
+    <p>
+      We meet every second Wednesday of the month on a wide range of topics including Business Intelligence,
+      Disaster Recovery, SQL Server performance and monitoring, and SQL Server development.
+    </p>
+    <p>
+      The goal is to help the Baton Rouge area SQL community become more involved, educated, and capable
+      technology professionals.
+    </p>
+
+    <h2>Partner groups</h2>
+    <p>
+      Meetings are held monthly in conjunction with our partner user groups:
+    </p>
+    <ul>
+      <li><strong>Baton Rouge Analytics & Intelligence Network</strong> — <a href="https://gobrain.org" target="_blank" rel="noreferrer">gobrain.org</a></li>
+      <li><strong>Baton Rouge .NET User Group</strong> — <a href="http://brdnug.org" target="_blank" rel="noreferrer">BRDNUG.org</a></li>
+    </ul>
+
+    <h2>Not-for-profit corporation</h2>
+    <p>
+      BRSSUG operates under <strong>Baton Rouge User Groups</strong>, a Louisiana not-for-profit corporation
+      (501c6) formed to support all user groups and user group events with financial logistics. Baton Rouge
+      User Groups has supported the SQL and .NET user groups as well as Day of Data
+      events. Our EIN and a W-9 are available upon request.
+    </p>
+
+
+    <h2>Day of Data Baton Rouge</h2>
+    <p>
+      BRSSUG hosts an annual full-day data conference — free sessions, great speakers, and the Baton
+      Rouge data community all in one place. For more information on speaking, volunteering, or attending, visit
+      <a href="https://www.dayofdatabr.org/" target="_blank" rel="noreferrer">dayofdatabr.org</a>.
+    </p>
+
+    <h2>Organizers</h2>
+    <p>
+      <a href="https://www.linkedin.com/in/kennyneal225/" target="_blank" rel="noreferrer">Kenny Neal</a> ·
+      <a href="https://www.linkedin.com/in/balaji-nedurumalli/" target="_blank" rel="noreferrer">Balaji Nedurumalli</a> ·
+      <a href="https://www.linkedin.com/in/andyparkerson/" target="_blank" rel="noreferrer">Andy Parkerson</a> ·
+      <a href="https://www.linkedin.com/in/thomaslleblanc/" target="_blank" rel="noreferrer">Thomas LeBlanc</a>
+    </p>
+    <p>
+      Questions? Email us at <a href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a>.
+    </p>
+  </section>
+</BaseLayout>
