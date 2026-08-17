@@ -1,0 +1,97 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../lib/data';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<SiteLayout title={`${siteData.brand} | Mailing List & Contact`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Contact</p>
+      <h1>Mailing list &amp; contact info</h1>
+      <p>Stay connected with BRUG through Meetup, social media, or email.</p>
+    </div>
+  </section>
+
+  <section class="panel contact-grid-panel">
+    <div class="contact-grid">
+
+      <div class="contact-card">
+        <p class="card-kicker">Mailing list</p>
+        <h3>Join on Meetup</h3>
+        <p class="card-meta">
+          Sign up for our mailing list by joining our Meetup group. You'll get
+          meeting announcements, speaker details, and event reminders.
+        </p>
+        <a class="card-link" href={siteData.meetupUrl} target="_blank" rel="noreferrer">Join on Meetup</a>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">Email</p>
+        <h3>Email the organizers</h3>
+        <p class="card-meta">
+          For general questions, speaking inquiries, or sponsorship discussions.
+        </p>
+        <a class="card-link" href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">Slack</p>
+        <h3>Join our Slack</h3>
+        <p class="card-meta">
+          Chat with organizers and other members between meetings.
+        </p>
+        <a class="card-link" href="https://join.slack.com/t/brusergroups/shared_invite/zt-39dtce6qo-O6~WwrCGITKw0MzWCpY91A" target="_blank" rel="noreferrer">Join on Slack</a>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">Twitter / X</p>
+        <h3>Follow us on X</h3>
+        <p class="card-meta">
+          <a href="https://twitter.com/BRSSUG" target="_blank" rel="noreferrer">@BRSSUG</a> — Baton Rouge SQL Server User Group<br />
+          <a href="https://twitter.com/brpbiug" target="_blank" rel="noreferrer">@BRPBIUG</a> — Baton Rouge Power BI User Group<br />
+          <a href="https://twitter.com/SQLSATBR" target="_blank" rel="noreferrer">@SQLSatBR</a> — SQL Saturday Baton Rouge
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">Bluesky</p>
+        <h3>Follow us on Bluesky</h3>
+        <p class="card-meta">
+          <a href="https://bsky.app/profile/brssug.org" target="_blank" rel="noreferrer">@BRSSUG.org</a><br />
+          <a href="https://bsky.app/profile/sqlsatbr.com" target="_blank" rel="noreferrer">@SQLSatBR.com</a>
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">LinkedIn</p>
+        <h3>Connect on LinkedIn</h3>
+        <p class="card-meta">
+          <a href="https://www.linkedin.com/company/baton-rouge-user-groups/" target="_blank" rel="noreferrer">Baton Rouge User Groups</a><br />
+          <a href="https://www.linkedin.com/company/brssug/" target="_blank" rel="noreferrer">Baton Rouge SQL Server User Group</a><br />
+          <a href="https://www.linkedin.com/company/gobrainorg" target="_blank" rel="noreferrer">Baton Rouge Analytics & Intelligence Network (BRAIN)</a>
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">YouTube</p>
+        <h3>Watch past meetings</h3>
+        <p class="card-meta">
+          Every meeting is streamed live and recorded. Catch up on past sessions or
+          watch remotely when you can't make it in person.
+        </p>
+        <a class="card-link" href="https://www.youtube.com/@BRUserGroups" target="_blank" rel="noreferrer">Baton Rouge User Groups on YouTube</a>
+      </div>
+
+      <div class="contact-card">
+        <p class="card-kicker">Speaking</p>
+        <h3>Speak at BRUG</h3>
+        <p class="card-meta">
+          We need speakers! See our Call for Speakers page for everything you need to know.
+        </p>
+        <a class="card-link" href={`${base}/call-for-speakers/`}>Call for Speakers</a>
+      </div>
+
+    </div>
+  </section>
+</SiteLayout>

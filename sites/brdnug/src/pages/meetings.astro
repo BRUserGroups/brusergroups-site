@@ -1,0 +1,101 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import MeetingCard from '@brusergroups/core/components/MeetingCard.astro';
+import MeetingListItem from '@brusergroups/core/components/MeetingListItem.astro';
+import SectionHeading from '@brusergroups/core/components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+import { siteData, speakers } from '../lib/data';
+
+const speakerMap = new Map(speakers.map(s => [s.id, s]));
+
+const allMeetings = await getCollection('meetings');
+const today = new Date();
+const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
+const upcoming = allMeetings
+  .filter(m => m.data.date >= todayUtc)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const past = allMeetings
+  .filter(m => m.data.date < todayUtc)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<SiteLayout title={`${siteData.brand} | Meetings`}>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Schedule</p>
+        <h1>Meetings</h1>
+        <p>
+          BRDNUG meets the second Wednesday of each month at Jones Creek Regional Library.
+          Doors open at <strong>5:15 PM</strong> for food and networking — the
+          presentation starts at 6:00 PM.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={siteData.meetupUrl} target="_blank" rel="noreferrer">RSVP on Meetup</a>
+          <a class="button-secondary" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/calendar/`}>Add to calendar</a>
+        </div>
+      </div>
+      <aside class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">When</span>
+          <span class="meta-value">{siteData.meetingSchedule}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Agenda</span>
+          <span class="meta-value">5:15 Food &amp; networking · 6:00 Presentation</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Recording</span>
+          <span class="meta-value">Every meeting on YouTube</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {upcoming.length > 0 && (
+    <section class="panel stack">
+      <SectionHeading
+        eyebrow="Upcoming"
+        title="Next meetings"
+        text="Session details and speakers are announced on Meetup closer to each meeting."
+      />
+      <div class="cards-grid">
+        {upcoming.map((m) => {
+          const matchedSpeaker = speakerMap.get(m.data.sessionizeId ?? '');
+          return (
+            <MeetingCard
+              meeting={m}
+              speakerPicture={matchedSpeaker?.profilePicture || ''}
+              fallbackDescription={matchedSpeaker?.sessions?.[0]?.description || ''}
+              fallbackBio={matchedSpeaker?.bio || ''}
+              lightningSpeakerPicture={speakerMap.get(m.data.lightningSessionizeId ?? '')?.profilePicture || ''}
+            />
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  {past.length > 0 && (
+    <section class="panel stack">
+      <SectionHeading
+        eyebrow="Archive"
+        title="Past meetings"
+        text="Missed one? Catch the recording on YouTube."
+      />
+      <ul class="meeting-list">
+        {past.map((m) => (
+          <MeetingListItem meeting={m} speakerPicture={speakerMap.get(m.data.sessionizeId ?? '')?.profilePicture || ''} />
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {upcoming.length === 0 && past.length === 0 && (
+    <section class="panel">
+      <p class="empty-state">No meetings posted yet. Check <a href={siteData.meetupUrl} target="_blank" rel="noreferrer">Meetup</a> for the latest.</p>
+    </section>
+  )}
+</SiteLayout>

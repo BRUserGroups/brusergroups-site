@@ -1,0 +1,82 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../lib/data';
+import jobsJson from '../data/jobs.json';
+
+// Each entry: { title, company, location, type, description, applyUrl, postedAt }
+type Job = {
+  title: string;
+  company: string;
+  location?: string;
+  type?: string;
+  description: string;
+  applyUrl?: string;
+  postedAt?: string;
+};
+
+const jobs = jobsJson as Job[];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<SiteLayout title={`${siteData.brand} | Jobs`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Careers</p>
+      <h1>Jobs</h1>
+      <p>
+        Local companies often reach out to BRUG looking for DBAs, BI developers, .NET
+        developers, data analysts, and other data platform talent. We collect those postings
+        here so members can find their next opportunity — or their next hire.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href={`${base}/jobs/add/`}>Submit a job posting →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel prose-panel">
+    <h2>Current openings</h2>
+    {jobs.length === 0 ? (
+      <p>There are no current openings posted. Check back soon, or <a href={`${base}/jobs/add/`}>submit one</a> if you're hiring.</p>
+    ) : (
+      <ul class="jobs-list">
+        {jobs.map((job) => (
+          <li class="job-card">
+            <h3>{job.title}</h3>
+            <p class="job-meta">
+              {job.company}
+              {job.location ? ` · ${job.location}` : ''}
+              {job.type ? ` · ${job.type}` : ''}
+            </p>
+            <p>{job.description}</p>
+            {job.applyUrl && (
+              <a class="card-link" href={job.applyUrl} target="_blank" rel="noreferrer">Apply →</a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+</SiteLayout>
+
+<style>
+  .jobs-list {
+    display: grid;
+    gap: 1.25rem;
+    padding: 0;
+    list-style: none;
+  }
+  .job-card {
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+  .job-card h3 {
+    margin: 0 0 0.3rem;
+  }
+  .job-meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.6rem;
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import CoreBaseLayout from '@brusergroups/core/layouts/BaseLayout.astro';
+import { siteData } from '../lib/data';
+
+type Props = {
+  title?: string;
+  description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogUrl?: string;
+};
+
+const props = Astro.props as Props;
+---
+
+<CoreBaseLayout
+  {...props}
+  siteData={siteData}
+  extraNavLinks={[{ label: 'Day of Data', href: 'https://www.dayofdatabr.org/', external: true }]}
+>
+  <slot />
+</CoreBaseLayout>

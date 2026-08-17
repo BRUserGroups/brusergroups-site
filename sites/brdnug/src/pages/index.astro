@@ -1,0 +1,171 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import MeetingCard from '@brusergroups/core/components/MeetingCard.astro';
+import MeetingListItem from '@brusergroups/core/components/MeetingListItem.astro';
+import SectionHeading from '@brusergroups/core/components/SectionHeading.astro';
+import { getCollection } from 'astro:content';
+import { siteData, speakers } from '../lib/data';
+import { formatDate } from '@brusergroups/core/lib/format';
+
+// Build a lookup from sessionizeId → profilePicture for meeting cards
+const speakerPicMap = new Map(speakers.map(s => [s.id, s.profilePicture]));
+
+const allMeetings = await getCollection('meetings');
+// Use UTC midnight today so date-only frontmatter values compare correctly
+const today = new Date();
+const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
+const upcoming = allMeetings
+  .filter(m => m.data.date >= todayUtc)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const past = allMeetings
+  .filter(m => m.data.date < todayUtc)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const nextMeeting = upcoming[0] ?? null;
+const recentPast = past.slice(0, 3);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<SiteLayout title={siteData.title}>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">.NET · C# · Azure</p>
+        <h1>Baton Rouge's community for .NET developers.</h1>
+        <p>
+          BRDNUG meets monthly at Jones Creek Regional Library for technical talks,
+          demos, and community connection. Free and open to everyone.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href={siteData.meetupUrl} target="_blank" rel="noreferrer">Join on Meetup</a>
+          <a class="button-secondary" href={`${base}/meetings/`}>View meetings</a>
+        </div>
+        <p class="hero-stream-note">
+          Can't make it in person? We stream and record every meeting on <a href={siteData.youtubeUrl} target="_blank" rel="noreferrer">YouTube</a>.
+        </p>
+      </div>
+
+      <aside class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">When</span>
+          <span class="meta-value">{siteData.meetingSchedule}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Where</span>
+          <span class="meta-value">Jones Creek Regional Library</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Agenda</span>
+          <span class="meta-value">5:15 Food &amp; networking · 6:00 Presentation</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Online</span>
+          <span class="meta-value">Live streamed on YouTube</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {nextMeeting && (
+    <div class="next-meeting-strip">
+      <div class="next-meeting-label">Next meeting</div>
+      <div class="next-meeting-body">
+        <span class="next-meeting-date">{formatDate(nextMeeting.data.date)}</span>
+        <span class="next-meeting-divider">·</span>
+        <span class="next-meeting-title">{nextMeeting.data.title}</span>
+        {nextMeeting.data.speaker !== 'TBD' && (
+          <>
+            <span class="next-meeting-divider">·</span>
+            <span class="next-meeting-speaker">{nextMeeting.data.speaker}</span>
+          </>
+        )}
+      </div>
+      {nextMeeting.data.meetupUrl && (
+        <div class="next-meeting-actions">
+          <a href={nextMeeting.data.meetupUrl} target="_blank" rel="noreferrer" class="next-meeting-rsvp">
+            RSVP on Meetup →
+          </a>
+        </div>
+      )}
+    </div>
+  )}
+
+  <section class="panel about-panel">
+    <SectionHeading
+      eyebrow="About"
+      title="What is BRDNUG?"
+      text=""
+    />
+    <div class="about-grid">
+      <p>
+        The Baton Rouge .NET User Group has been connecting local technology
+        professionals for years. We're a free, community-run group focused on
+        C#, ASP.NET, Azure, and the broader .NET ecosystem.
+      </p>
+      <p>
+        Meetings feature presentations from local experts and Microsoft MVPs,
+        followed by open discussion and networking. Whether you're a seasoned
+        architect, a junior developer, or just getting started — you're welcome here.
+      </p>
+    </div>
+    <div class="topic-chips">
+      {['.NET', 'C#', 'ASP.NET Core', 'Azure', 'Blazor', 'Entity Framework', 'DevOps', 'Copilot & AI'].map(t => (
+        <span class="chip">{t}</span>
+      ))}
+    </div>
+  </section>
+
+  {upcoming.length > 0 && (
+    <section class="panel stack">
+      <SectionHeading
+        eyebrow="Upcoming"
+        title="Next meetings"
+        text="RSVP on Meetup to get reminders and stay up to date on session details."
+      />
+      <div class="cards-grid">
+        {upcoming.map((m) => (
+          <MeetingCard meeting={m} speakerPicture={speakerPicMap.get(m.data.sessionizeId ?? '') || ''} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {recentPast.length > 0 && (
+    <section class="panel stack">
+      <SectionHeading
+        eyebrow="Archive"
+        title="Recent meetings"
+        text="Missed a session? Catch the recording on YouTube."
+      />
+      <ul class="meeting-list">
+        {recentPast.map((m) => (
+          <MeetingListItem meeting={m} speakerPicture={speakerPicMap.get(m.data.sessionizeId ?? '') || ''} />
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="panel day-of-data-panel">
+    <div class="day-of-data-inner">
+      <div>
+        <p class="eyebrow">Annual Event</p>
+        <h2>Day of Data Baton Rouge</h2>
+        <p>Our annual full-day data conference — free sessions, great speakers, and the Baton Rouge data community all in one place.</p>
+      </div>
+      <a class="button" href="https://www.dayofdatabr.org/" target="_blank" rel="noreferrer">Learn more →</a>
+    </div>
+  </section>
+
+  <section class="panel sponsorship-cta-panel">
+    <div class="sponsorship-cta-inner">
+      <div>
+        <p class="eyebrow">Get Involved</p>
+        <h2>Sponsor a meeting</h2>
+        <p>Connect with 50+ .NET, C#, and Azure developers for $150–$250, including a pizza dinner if you'd like to cover it.</p>
+      </div>
+      <a class="button-secondary" href={`${base}/sponsorship/`}>Sponsorship info →</a>
+    </div>
+  </section>
+</SiteLayout>

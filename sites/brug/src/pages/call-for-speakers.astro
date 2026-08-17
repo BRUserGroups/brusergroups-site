@@ -1,0 +1,66 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../lib/data';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<SiteLayout title={`${siteData.brand} | Call for Speakers`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Get involved</p>
+      <h1>Call for speakers</h1>
+      <p>
+        The number one thing that user groups like ours need are <strong>speakers</strong>.
+        Venues and sponsors and swag come and go — but human beings willing to share their
+        technical knowledge is the number one commodity for a user group.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="https://sessionize.com/brug" target="_blank" rel="noreferrer">Submit on Sessionize</a>
+        <a class="button-secondary" href={`mailto:${siteData.contactEmail}?subject=Speaking at BRUG`}>Email us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel prose-panel">
+    <h2>What does it take to speak?</h2>
+    <p>
+      Not expertise, not experience, and not a fancy impressive slide deck — though all those
+      things are helpful. Got an interesting project at work? A master's or doctoral thesis
+      to research presenting? Blogged about an interesting solution to a problem? Excited about
+      a piece of software? <strong>We'd like to hear from you.</strong>
+    </p>
+    <p>
+      Code demos are great tools and can be more informative and interesting than a PowerPoint
+      alone. Bring whatever you've got.
+    </p>
+
+    <h2>How long do I have to speak?</h2>
+    <p>
+      You tell us — there's no set schedule. If you'd like only to kick off a meeting with a
+      15-minute talk, we'll gladly schedule you for that. Anywhere from <strong>15 to 90 minutes</strong>
+      is what we try to fill during a user group, and you're entitled to any portion of that.
+    </p>
+
+    <h2>What do I get out of it?</h2>
+    <p>
+      Whether this is your first talk or your fiftieth, we're a good place to practice. You'll
+      find a friendly room of peers, not a crowd to perform for. No nonconstructive, cynical,
+      or condescending remarks — ever.
+    </p>
+
+    <h2>Employer sponsorship</h2>
+    <p>
+      Many speakers get encouragement from their employers in the form of a user group sponsorship,
+      where your sales and marketing folks can meet and greet attendees across the SQL, .NET, and
+      analytics user groups. If you'd like to schedule a meeting where your employer can also attend
+      as a sponsor, we can definitely do that. See our <a href={`${base}/sponsorship/`}>sponsorship page</a> for details.
+    </p>
+
+    <h2>Ready? Let's get you on the schedule.</h2>
+    <p>
+      Email us at <a href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a> and
+      we'll work out a date. You can also submit your talk directly through our
+      <a href="https://sessionize.com/brug" target="_blank" rel="noreferrer">Sessionize Call for Speakers page</a>.
+    </p>
+  </section>
+</SiteLayout>

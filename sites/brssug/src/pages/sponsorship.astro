@@ -1,0 +1,208 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { siteData } from '../lib/data';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<SiteLayout title={`${siteData.brand} | Sponsor a Meeting`}>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Support BRSSUG</p>
+      <h1>Sponsor a meeting</h1>
+      <p>
+        Interested in meeting local SQL Server, .NET, and data platform professionals?
+        Sponsoring a meeting is a low-cost way to put your company in front of the
+        Baton Rouge tech community.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="#form">Submit inquiry →</a>
+        <a class="button-secondary" href="tel:2252677761">225-267-7761</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel prose-panel">
+    <h2>What sponsorship includes</h2>
+    <p>
+      Sponsorship of a user group meeting covers dinner for approximately 15–20 people.
+      While the food choice is up to you, pizza or jambalaya is always a hit — and
+      it's a bargain considering the exposure you get with area IT professionals from
+      both the SQL Server User Group and our partner group, the
+      <a href="http://brdnug.org" target="_blank" rel="noreferrer">Baton Rouge .NET User Group</a>.
+    </p>
+    <ul>
+      <li>During announcements, we'll introduce you and you can introduce your company, mission, industry, and any job postings to the group.</li>
+      <li>You can speak for a minute, or give a lightning-round presentation up to <strong>15 minutes</strong>.</li>
+      <li>At the end of the meeting we do a raffle for books and swag — we encourage you to hang around, network, and give away a prize.</li>
+      <li>An invoice can be provided upon request. Baton Rouge User Groups is a not-for-profit corporation, but sponsorship is <strong>not tax-deductible</strong> — your fee covers only our expenses (dinner).</li>
+    </ul>
+
+    <h2>Details &amp; pricing</h2>
+    <ul>
+      <li>Pizza or jambalaya typically runs <strong>$150–$250</strong></li>
+      <li>Pick any open date on the calendar — we'd love to have you</li>
+      <li>We can order food and get reimbursed, or you can handle it — your choice</li>
+      <li>Have technical resources too? We'd love to have you sponsor <em>and</em> provide a speaker</li>
+      <li>Up to 15 minutes during announcements to present, hand out flyers/swag, shake hands, and draw raffle prizes</li>
+    </ul>
+
+    <h2>Day of Data Baton Rouge sponsors</h2>
+    <p>
+      Our annual <strong>Networking Night</strong> at our July meeting is for you! Gold+ sponsors of our
+      annual <a href="https://www.dayofdatabr.org/" target="_blank" rel="noreferrer">Day of Data Baton Rouge</a>
+      event (held in July) get an official sponsor speaking slot and presence at Networking Night.
+      See your sponsorship PDF for more information.
+    </p>
+  </section>
+
+  <section id="form" class="panel">
+    <h2 class="panel-title">Sponsorship inquiry</h2>
+    <p style="color: var(--muted); margin-bottom: 1.5rem; max-width: 52ch;">
+      Fill out the form below and we'll get back to you within a day or two.
+      Prefer email? <a href={`mailto:${siteData.contactEmail}?subject=BRSSUG Sponsorship`}>Write us directly</a>.
+    </p>
+
+    <form
+      class="sponsor-form"
+      action={`mailto:${siteData.contactEmail}`}
+      method="post"
+      enctype="text/plain"
+      onsubmit="return prepareSponsorEmail(event)"
+    >
+      <div class="form-grid">
+        <label class="form-field">
+          <span class="form-label">Company name <em>required</em></span>
+          <input type="text" name="Company" required />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Your name <em>required</em></span>
+          <input type="text" name="Name" required />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Email <em>required</em></span>
+          <input type="email" name="Email" required />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Phone</span>
+          <input type="tel" name="Phone" />
+        </label>
+
+        <label class="form-field form-field--wide">
+          <span class="form-label">Preferred meeting date</span>
+          <select name="Preferred Date">
+            <option value="">Flexible — let's discuss</option>
+            <option value="Second Wednesday">Next available meeting</option>
+            <option value="Specific">A specific date (tell us in notes)</option>
+          </select>
+        </label>
+
+        <label class="form-field form-field--wide">
+          <span class="form-label">Notes or questions</span>
+          <textarea name="Notes" rows="4" placeholder="Food preferences, whether you'd like to present, special requests…"></textarea>
+        </label>
+
+        <label class="form-field form-field--wide form-field--checkbox">
+          <input type="checkbox" name="Speaker" value="Yes" />
+          <span class="form-label">I'd also like to give a short tech talk or presentation</span>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="button">Send inquiry →</button>
+        <p class="form-note">Opens your email client with the details filled in. No data is stored on our server.</p>
+      </div>
+    </form>
+  </section>
+</SiteLayout>
+
+<script>
+  function prepareSponsorEmail(event) {
+    event.preventDefault();
+    const form = event.target;
+    const fd = new FormData(form);
+    const email = form.action.replace('mailto:', '');
+    const subject = 'BRSSUG Sponsorship Inquiry';
+    const body = Array.from(fd.entries())
+      .filter(([_, v]) => v)
+      .map(([k, v]) => `${k}: ${v}`)
+      .join('\n');
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return false;
+  }
+</script>
+
+<style is:global>
+  .sponsor-form {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .form-field {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .form-field--wide {
+    grid-column: 1 / -1;
+  }
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .form-label em {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.95rem;
+    background: var(--surface-soft);
+    transition: border-color 0.15s;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--surface);
+  }
+  .form-field--checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .form-field--checkbox input {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+  }
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .form-note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
