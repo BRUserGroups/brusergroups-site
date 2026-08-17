@@ -1,0 +1,23 @@
+{
+  "name": "@brusergroups/brain",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run sync:data && astro build",
+    "preview": "astro preview",
+    "sync:data": "node ../../packages/core/scripts/sync-content.mjs",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.4.0",
+    "@brusergroups/core": "*",
+    "astro": "^5.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,8 +1,23 @@
 name: New meeting
-description: Hand off details for a new BRSSUG meeting so it can be added to the site.
+description: Hand off details for a new meeting so it can be added to the site(s).
 title: "New meeting: "
 labels: ["meeting"]
 body:
+  - type: checkboxes
+    id: sites
+    attributes:
+      label: Sites
+      description: >-
+        Groups typically meet jointly with a shared presenter — check all that apply.
+        Only check one if this meeting is specific to a single group.
+      options:
+        - label: BRUG
+        - label: BRSSUG
+        - label: BRDNUG
+        - label: BRAIN
+    validations:
+      required: true
+
   - type: input
     id: title
     attributes:

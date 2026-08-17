@@ -1,4 +1,4 @@
-name: Deploy site
+name: Deploy sites
 
 on:
   push:
@@ -13,13 +13,12 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
+  build-brug:
     runs-on: ubuntu-latest
+    concurrency:
+      group: pages-brug
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,13 +35,13 @@ jobs:
         run: npm ci
 
       - name: Build site
-        run: npm run build
+        run: npm run build -w sites/brug
         env:
           SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
           SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
 
       - name: Cross-post meetings to brdnug.org (WordPress)
-        run: npm run sync:wordpress
+        run: npm run sync:wordpress -w sites/brug
         continue-on-error: true
         env:
           WORDPRESS_API_BASE: ${{ secrets.WORDPRESS_API_BASE }}
@@ -51,7 +50,7 @@ jobs:
           WORDPRESS_CATEGORY_ID: ${{ secrets.WORDPRESS_CATEGORY_ID }}
 
       - name: Email brdnug.org post draft
-        run: npm run sync:email
+        run: npm run sync:email -w sites/brug
         continue-on-error: true
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
@@ -64,15 +63,57 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: sites/brug/dist
 
-  deploy:
+  deploy-brug:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: build
+    needs: build-brug
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-other-sites:
+    strategy:
+      matrix:
+        site: [brssug, brdnug, brain]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages-${{ matrix.site }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build -w sites/${{ matrix.site }}
+        env:
+          SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
+          SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
+          # Not yet cut over to a custom domain — build against the GitHub Pages project
+          # URL until DNS + the custom domain are set on BRUserGroups/${{ matrix.site }}-pages.
+          # Remove this once that site's DNS cutover is complete.
+          GITHUB_PAGES_PROJECT_PREVIEW: 'true'
+
+      - name: Deploy to BRUserGroups/${{ matrix.site }}-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          external_repository: BRUserGroups/${{ matrix.site }}-pages
+          publish_branch: main
+          publish_dir: sites/${{ matrix.site }}/dist
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

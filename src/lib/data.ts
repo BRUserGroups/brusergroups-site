@@ -1,6 +1,0 @@
-import siteDataJson from '../data/generated/site.json';
-import speakersJson from '../data/generated/speakers.json';
-import type { SiteData, Speaker } from './types';
-
-export const siteData = siteDataJson as SiteData;
-export const speakers = speakersJson as Speaker[];

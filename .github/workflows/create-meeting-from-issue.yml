@@ -31,7 +31,7 @@ jobs:
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: node scripts/create-meeting-from-issue.mjs
+        run: node packages/core/scripts/create-meeting-from-issue.mjs
 
       - name: Comment on parse failure
         if: steps.create_meeting.outcome == 'failure'
@@ -48,9 +48,13 @@ jobs:
         id: validate_build
         if: steps.create_meeting.outcome == 'success'
         env:
+          SITES: ${{ steps.create_meeting.outputs.sites }}
           SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
           SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
-        run: npm run build
+        run: |
+          for site in $SITES; do
+            npm run build -w "sites/$site"
+          done
 
       - name: Comment on build failure
         if: steps.create_meeting.outcome == 'success' && steps.validate_build.outcome == 'failure'
@@ -58,13 +62,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
-          gh issue comment "$ISSUE_NUMBER" --body "The meeting file was created but the site failed to build with it. Check the workflow run for details, then edit the issue and re-open it."
+          gh issue comment "$ISSUE_NUMBER" --body "The meeting file was created but at least one site failed to build with it. Check the workflow run for details, then edit the issue and re-open it."
 
       - name: Create branch and open PR
         if: steps.create_meeting.outcome == 'success' && steps.validate_build.outcome == 'success'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
+          SITES: ${{ steps.create_meeting.outputs.sites }}
           FILENAME: ${{ steps.create_meeting.outputs.filename }}
           WARNINGS: ${{ steps.create_meeting.outputs.warnings }}
         run: |
@@ -75,8 +80,10 @@ jobs:
           BRANCH="meeting/$SLUG"
 
           git checkout -b "$BRANCH"
-          git add "src/content/meetings/$FILENAME"
-          git commit -m "Add meeting: $FILENAME"
+          for site in $SITES; do
+            git add "sites/$site/src/content/meetings/$FILENAME"
+          done
+          git commit -m "Add meeting: $FILENAME ($SITES)"
           # --force: this branch is fully bot-owned and regenerated fresh each run, so a
           # leftover branch from a previous failed/retried run (e.g. reopening the issue
           # after fixing something) should just be overwritten, not rejected as non-fast-forward.
