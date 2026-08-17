@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { formatDate, stripMarkdown } from '../lib/format';
+import JointMeetingKicker from './JointMeetingKicker.astro';
 
 type Props = {
   meeting: CollectionEntry<'meetings'>;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 const { meeting, speakerPicture, fallbackDescription, fallbackBio, lightningSpeakerPicture } = Astro.props;
-const { title, date, speaker, bio, meetupUrl, youtubeUrl, sponsor, sponsorUrl, category, lightningSpeaker, lightningTitle } = meeting.data;
+const { title, date, speaker, bio, meetupUrl, youtubeUrl, sponsor, sponsorUrl, category, sites, lightningSpeaker, lightningTitle } = meeting.data;
 const today = new Date();
 const todayUtc = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
 const isPast = date < todayUtc;
@@ -23,7 +24,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <article class="card meeting-card">
-  <p class="card-kicker">{category} · {isPast ? 'Past Meeting' : 'Upcoming'}</p>
+  <JointMeetingKicker category={category} sites={sites} isPast={isPast} />
 
   <div class="meeting-card-header">
     {speakerPicture

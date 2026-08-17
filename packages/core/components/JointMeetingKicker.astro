@@ -1,0 +1,44 @@
+---
+import { SITE_ACCENT_COLORS } from '../lib/site-colors';
+
+type Props = {
+  category: string;
+  sites?: string[];
+  isPast: boolean;
+};
+
+const { category, sites, isPast } = Astro.props as Props;
+const statusText = isPast ? 'Past Meeting' : 'Upcoming';
+const isJoint = Boolean(sites && sites.length > 1);
+---
+
+{isJoint ? (
+  <p class="card-kicker joint-kicker">
+    {sites!.map((site) => (
+      <span class="joint-chip" style={`background-color:${SITE_ACCENT_COLORS[site] ?? '#6b6153'}`}>{site.toUpperCase()}</span>
+    ))}
+    <span>&middot; {statusText}</span>
+  </p>
+) : (
+  <p class="card-kicker">{category} &middot; {statusText}</p>
+)}
+
+<style>
+  .joint-kicker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .joint-chip {
+    display: inline-flex;
+    padding: 0.08rem 0.45rem;
+    border-radius: 999px;
+    color: white;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+</style>

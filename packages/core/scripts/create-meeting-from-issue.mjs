@@ -70,6 +70,19 @@ function parseIssueBody(body) {
   return fields;
 }
 
+// A meeting checked for every known site is the common case (all groups meeting jointly)
+// and gets a generic label; a partial subset (e.g. BRSSUG + BRDNUG sharing a presenter
+// while BRAIN does its own thing that night) is spelled out explicitly instead.
+function buildCategory(sites) {
+  if (sites.length <= 1) {
+    return undefined;
+  }
+  if (sites.length === Object.keys(SITE_LABEL_MAP).length) {
+    return 'All Groups';
+  }
+  return sites.map((site) => site.toUpperCase()).join(' + ');
+}
+
 function slugify(text) {
   return text
     .normalize('NFKD')
@@ -83,6 +96,10 @@ function yamlString(value) {
   return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
 }
 
+function yamlStringArray(values) {
+  return `[${values.map(yamlString).join(', ')}]`;
+}
+
 function buildFrontmatter(fields) {
   const lines = [
     `title: ${yamlString(fields.title)}`,
@@ -90,6 +107,8 @@ function buildFrontmatter(fields) {
     `speaker: ${yamlString(fields.speaker)}`
   ];
 
+  if (fields.category) lines.push(`category: ${yamlString(fields.category)}`);
+  if (fields.sites.length > 1) lines.push(`sites: ${yamlStringArray(fields.sites)}`);
   if (fields.sessionizeId) lines.push(`sessionizeId: ${yamlString(fields.sessionizeId)}`);
   if (fields.bio) lines.push(`bio: ${yamlString(fields.bio)}`);
   if (fields.meetupUrl) lines.push(`meetupUrl: ${yamlString(fields.meetupUrl)}`);
@@ -144,6 +163,7 @@ async function main() {
     return;
   }
 
+  fields.category = buildCategory(fields.sites);
   const filename = `${fields.date}-${slugify(fields.speaker)}.md`;
 
   // Check every target site up front so a conflict on one site doesn't leave the others
