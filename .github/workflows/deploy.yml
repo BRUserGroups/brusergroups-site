@@ -79,7 +79,16 @@ jobs:
   deploy-other-sites:
     strategy:
       matrix:
-        site: [brssug, brdnug, brain]
+        include:
+          # preview: true builds against the GitHub Pages project URL instead of the real
+          # custom domain — flip to false once that site's DNS cutover is complete (see
+          # www.brssug.org below for the pattern to follow).
+          - site: brssug
+            preview: false
+          - site: brdnug
+            preview: true
+          - site: brain
+            preview: true
       fail-fast: false
     runs-on: ubuntu-latest
     concurrency:
@@ -103,10 +112,7 @@ jobs:
         env:
           SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
           SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
-          # Not yet cut over to a custom domain — build against the GitHub Pages project
-          # URL until DNS + the custom domain are set on BRUserGroups/${{ matrix.site }}-pages.
-          # Remove this once that site's DNS cutover is complete.
-          GITHUB_PAGES_PROJECT_PREVIEW: 'true'
+          GITHUB_PAGES_PROJECT_PREVIEW: ${{ matrix.preview }}
 
       - name: Deploy to BRUserGroups/${{ matrix.site }}-pages
         uses: peaceiris/actions-gh-pages@v4
