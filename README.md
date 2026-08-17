@@ -44,6 +44,11 @@ the issue form lets you check off every site the meeting applies to; the same fi
 into each checked site's content folder in one PR. Check only one site when a group meets on its
 own.
 
+Each site publishes its meetings as an RSS feed at `/rss.xml` (linked in the page `<head>` for
+feed-reader autodiscovery, and in the footer's Community column) — the closest static-site
+equivalent to WordPress's "new post" subscriptions, for anyone who wants to follow announcements
+without checking the site.
+
 ## Local development
 
 ```bash

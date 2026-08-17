@@ -50,6 +50,7 @@ const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString(
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     {iconSrc && <link rel="icon" type="image/png" href={`${base}/${iconSrc}`} />}
+    <link rel="alternate" type="application/rss+xml" title={`${siteData.brand} meetings`} href={`${base}/rss.xml`} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDescription} />
     {resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
@@ -126,6 +127,7 @@ const resolvedOgUrl = ogUrl ?? new URL(Astro.url.pathname, Astro.site).toString(
             <a href={siteData.meetupUrl} target="_blank" rel="noreferrer">Meetup</a>
             <a href={siteData.sessionizeUrl} target="_blank" rel="noreferrer">Sessionize</a>
             <a href={siteData.youtubeUrl} target="_blank" rel="noreferrer">YouTube</a>
+            <a href={`${base}/rss.xml`}>RSS</a>
             <a href={`${base}/code-of-conduct/`}>Code of Conduct</a>
             {extraNavLinks.map((link) => (
               <a href={link.href} target={link.external ? '_blank' : undefined} rel={link.external ? 'noreferrer' : undefined}>{link.label}</a>
