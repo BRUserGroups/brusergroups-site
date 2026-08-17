@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { siteData, speakers } from '../../lib/data';
 import { formatDate, stripMarkdown } from '@brusergroups/core/lib/format';
+import JointMeetingKicker from '@brusergroups/core/components/JointMeetingKicker.astro';
 
 type Props = { entry: CollectionEntry<'meetings'> };
 
@@ -15,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props as Props;
-const { title, date, speaker, bio, sponsor, sponsorUrl, category, meetupUrl, youtubeUrl, sessionizeId, lightningSpeaker, lightningTitle, lightningSessionizeId } = entry.data;
+const { title, date, speaker, bio, sponsor, sponsorUrl, category, sites, meetupUrl, youtubeUrl, sessionizeId, lightningSpeaker, lightningTitle, lightningSessionizeId } = entry.data;
 const { Content } = await render(entry);
 
 const speakerMap = new Map(speakers.map((s) => [s.id, s]));
@@ -37,7 +38,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <SiteLayout title={`${siteData.brand} | ${title}`} description={excerpt || undefined}>
   <section class="hero">
-    <p class="eyebrow">{category} · {isPast ? 'Past Meeting' : 'Upcoming'}</p>
+    <JointMeetingKicker category={category} sites={sites} isPast={isPast} />
     <h1>{title}</h1>
   </section>
 
