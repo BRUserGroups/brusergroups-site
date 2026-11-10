@@ -194,6 +194,20 @@ main {
   color: white;
 }
 
+.hero .meeting-header-meta {
+  margin: 1.5rem 0 0;
+}
+
+.hero .meeting-speaker-name {
+  color: white;
+  font-size: 1rem;
+}
+
+.hero .card-meta {
+  color: rgba(224, 218, 212, 0.85);
+  margin-top: 0;
+}
+
 .hero .hero-copy > p {
   color: rgba(224, 218, 212, 0.85);
 }
@@ -520,6 +534,27 @@ p {
   font-size: 0.9rem;
   font-style: italic;
   color: var(--muted);
+}
+
+.meeting-bio {
+  margin-top: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.prose-panel .meeting-bio h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.meeting-bio .meeting-speaker-bio {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0.95rem;
+  font-style: normal;
+  line-height: 1.65;
 }
 
 .meeting-lightning {
