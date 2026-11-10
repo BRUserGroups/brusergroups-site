@@ -1,0 +1,127 @@
+name: Update meeting
+description: Request changes to an existing meeting on the site(s).
+title: "Update meeting: "
+labels: ["meeting"]
+body:
+  - type: checkboxes
+    id: current_sites
+    attributes:
+      label: Current sites
+      description: Check every site where this meeting currently appears.
+      options:
+        - label: BRUG
+        - label: BRSSUG
+        - label: BRDNUG
+        - label: BRAIN
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: target_sites
+    attributes:
+      label: Sites after update
+      description: Check every site where the meeting should appear after this update.
+      options:
+        - label: BRUG
+        - label: BRSSUG
+        - label: BRDNUG
+        - label: BRAIN
+    validations:
+      required: true
+
+  - type: input
+    id: current_date
+    attributes:
+      label: Current meeting date
+      description: The date currently used by the meeting file, in YYYY-MM-DD format.
+      placeholder: "2026-01-01"
+    validations:
+      required: true
+
+  - type: input
+    id: current_speaker
+    attributes:
+      label: Current speaker full name
+      description: The speaker name currently used by the meeting file.
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: New session title
+      description: Leave blank to keep the current title.
+
+  - type: input
+    id: date
+    attributes:
+      label: New meeting date
+      description: Leave blank to keep the current date. Format YYYY-MM-DD.
+
+  - type: input
+    id: speaker
+    attributes:
+      label: New speaker full name
+      description: Leave blank to keep the current speaker.
+
+  - type: input
+    id: sessionize_id
+    attributes:
+      label: Sessionize speaker GUID
+      description: >-
+        Leave blank to keep the current value. Use [clear] to remove it. Enter the speaker GUID,
+        not the numeric speakerId/sessionId pair.
+
+  - type: textarea
+    id: bio
+    attributes:
+      label: Speaker bio
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: textarea
+    id: abstract
+    attributes:
+      label: Session abstract / description
+      description: Leave blank to keep the current description. Use [clear] to remove it and fall back to Sessionize.
+
+  - type: input
+    id: meetup_url
+    attributes:
+      label: Meetup event URL
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: youtube_url
+    attributes:
+      label: YouTube recording URL
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: sponsor
+    attributes:
+      label: Sponsor
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: sponsor_url
+    attributes:
+      label: Sponsor website URL
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: lightning_speaker
+    attributes:
+      label: Lightning talk speaker
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: lightning_title
+    attributes:
+      label: Lightning talk title
+      description: Leave blank to keep the current value. Use [clear] to remove it.
+
+  - type: input
+    id: lightning_sessionize_id
+    attributes:
+      label: Lightning talk speaker Sessionize GUID
+      description: Leave blank to keep the current value. Use [clear] to remove it.

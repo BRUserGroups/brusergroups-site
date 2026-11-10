@@ -128,3 +128,12 @@ once the PR is merged). If parsing fails (no site checked, missing title/date/sp
 formatted date) or a build fails, it comments on the issue explaining what to fix instead of
 opening a broken PR. `main` is a protected branch, so this always goes through a PR — nothing is
 pushed directly.
+
+## Update a meeting from an issue
+
+Use the "Update meeting" issue form to change an existing meeting. Select its current sites and
+the sites where it should appear after the update; the workflow verifies the current files, creates
+or removes site copies as needed, and opens one PR. Identify the meeting by its current date and
+speaker name. Leave change fields blank to keep their current values, or enter `[clear]` to remove
+an optional value. Changing the date or speaker name also renames the meeting file. All affected
+sites are built before the PR is opened, and the issue closes when the PR is merged.
