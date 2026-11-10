@@ -150,8 +150,8 @@ async function fetchSessionizeData() {
 }
 
 async function main() {
-  const currentSite = await readJson('src/data/generated/site.json', fallbackSite);
-  const currentSpeakers = await readJson('src/data/generated/speakers.json', []);
+  const currentSite = await readJson('src/data/site-config.json', fallbackSite);
+  const currentSpeakers = await readJson('src/data/speakers.seed.json', []);
 
   let nextSpeakers = currentSpeakers;
   const warnings = [];

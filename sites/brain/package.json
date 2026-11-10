@@ -4,11 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "npm run sync:data && astro dev",
     "build": "npm run sync:data && astro build",
     "preview": "astro preview",
     "sync:data": "node ../../packages/core/scripts/sync-content.mjs",
-    "check": "astro check"
+    "check": "npm run sync:data && astro check"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
