@@ -5,7 +5,7 @@ import path from 'node:path';
 // workspace running the script), not to this shared script's own location.
 const rootDir = process.cwd();
 const sessionizeEventId = process.env.SESSIONIZE_EVENT_ID;
-const sessionizeApiBase = process.env.SESSIONIZE_API_BASE ?? 'https://sessionize.com/api/v2';
+const sessionizeApiBase = process.env.SESSIONIZE_API_BASE || 'https://sessionize.com/api/v2';
 
 const fallbackSite = {
   brand: 'Site',
