@@ -1,0 +1,97 @@
+name: Update meeting from issue
+
+on:
+  issues:
+    types: [opened, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  update-meeting:
+    if: contains(github.event.issue.labels.*.name, 'meeting') && contains(github.event.issue.body, '### Current sites')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse issue and update meeting file
+        id: update_meeting
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: node packages/core/scripts/update-meeting-from-issue.mjs
+
+      - name: Comment on parse failure
+        if: steps.update_meeting.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ERROR_MESSAGE: ${{ steps.update_meeting.outputs.error }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "Couldn't update the meeting file automatically: $ERROR_MESSAGE
+
+          Please edit the issue to fix this, then re-open it (or ping a maintainer to update the file by hand)."
+
+      - name: Validate build
+        id: validate_build
+        if: steps.update_meeting.outcome == 'success'
+        env:
+          SITES: ${{ steps.update_meeting.outputs.sites }}
+          SESSIONIZE_EVENT_ID: ${{ secrets.SESSIONIZE_EVENT_ID }}
+          SESSIONIZE_API_BASE: ${{ secrets.SESSIONIZE_API_BASE }}
+        run: |
+          for site in $SITES; do
+            npm run build -w "sites/$site"
+          done
+
+      - name: Comment on build failure
+        if: steps.update_meeting.outcome == 'success' && steps.validate_build.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body "The meeting file was updated in the workflow checkout but at least one site failed to build. Check the workflow run for details, then edit the issue and re-open it."
+
+      - name: Create branch and open PR
+        if: steps.update_meeting.outcome == 'success' && steps.validate_build.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          SITES: ${{ steps.update_meeting.outputs.sites }}
+          OLD_FILENAME: ${{ steps.update_meeting.outputs.old_filename }}
+          FILENAME: ${{ steps.update_meeting.outputs.filename }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          SLUG="${FILENAME%.md}"
+          BRANCH="meeting/update-$ISSUE_NUMBER-$SLUG"
+
+          git checkout -b "$BRANCH"
+          for site in $SITES; do
+            git add -A -- "sites/$site/src/content/meetings/$OLD_FILENAME" "sites/$site/src/content/meetings/$FILENAME"
+          done
+          git commit -m "Update meeting: $FILENAME ($SITES)"
+          git push --force -u origin "$BRANCH"
+
+          BODY="Automatically generated from #$ISSUE_NUMBER.
+
+          Closes #$ISSUE_NUMBER"
+
+          if gh pr view "$BRANCH" >/dev/null 2>&1; then
+            echo "PR already exists for $BRANCH, skipping creation."
+          else
+            gh pr create --base main --head "$BRANCH" --title "Update meeting: $FILENAME" --body "$BODY"
+          fi
